@@ -6,6 +6,7 @@ const _ = require('underscore')
 const mentorModule = require('../abc/xyz/myModule'); 
 const req = require('express/lib/request');
 const { route } = require('express/lib/application');
+const { before } = require('underscore');
 
 
 router.get("/profile-details", function(req, res){
@@ -21,7 +22,7 @@ router.get('/test-me', function (req, res) {
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     let result = _.first(days, 4)
     console.log(`Result from underscore function is ${result}`)
-    console.log(`The mentor of the day is ${mentorModule.mentor}`)
+    console.log(`The mentor of the day is ${mentorModule.mentor1}`)
 
     res.send('any dummy text from route handler 1')
 });
@@ -60,7 +61,7 @@ router.get('/student-details/:name', function(req, res){
 
 // PATH Param example
 router.get("/profile/:name", function(req, res){
-    console.log('Printing the request to find out wjere name is stored',req.params)
+    console.log('Printing the request to find out where name is stored',req.params)
     console.log('user name is',req.params.name)
     //console.log(`User requesting for profile is ${name}`)
     res.send("dummy details")
@@ -73,5 +74,103 @@ router.get("/shoes", function(req, res){
     //req.query.brand
     res.send("dummy shoes response")
 })
+
+//prblm1
+router.get("/movies", function(req,res){
+    arrMov=['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+    res.send(arrMov)
+})
+
+//prblm2
+
+// router.get("/movies/:indexNumber", function(req,res){
+//     let i=req.params.indexNumber
+//     arrMov=['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+//     res.send(arrMov[i])
+// })
+
+//prblm3
+
+router.get("/movies/:indexNumber", function(req,res){
+    let i=req.params.indexNumber
+    arrMov=['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+        if(i<arrMov.length){
+            res.send(arrMov[i])
+        }else res.send("Invalid index number") 
+})
+
+//prblm4
+
+router.get("/GET/films", function(req,res){
+    let arrMov=[ {
+        "id": 1,
+        "name": "The Shining"
+       }, {
+        "id": 2,
+        "name": "Incendies"
+       }, {
+        "id": 3,
+        "name": "Rang de Basanti"
+       }, {
+        "id": 4,
+        "name": "Finding Nemo"
+       }] 
+       res.json(arrMov)
+})
+
+//prblm5
+
+router.get("/GET/films/:filmid", function(req,res){
+    let movieId=req.params.filmid
+    let arrMov=[ {
+        "id": 1,
+        "name": "The Shining"
+       }, {
+        "id": 2,
+        "name": "Incendies"
+       }, {
+        "id": 3,
+        "name": "Rang de Basanti"
+       }, {
+        "id": 4,
+        "name": "Finding Nemo"
+       }] 
+       if(movieId<arrMov.length){
+    let filmObj=arrMov.find(i=>i.id==movieId)
+        res.json(filmObj)
+       } else res.json("No movie exist with this id")
+})
+
+
+
+
+     router.get("/sol1", function (req, res) {
+	   //logic : sum of numbers is n(n+1)/2..so get sum of all numbers in array. now take sum of numbers till last digit in the array
+	   let arr= [1,2,4,5,6,7]
+       let n=arr.length+1
+      let sum=(n*(n+1)/2)
+      const total=arr.reduce((a,b)=>a+b)
+      const missingNumber=sum-total
+	   res.send(  { data: missingNumber  }  );
+ });
+
+
+ router.get("/sol2", function (req, res) {
+    let arr= [33, 35, 36, 37, 38]
+    let total=arr.reduce((a,b)=>a+b)
+    let n =arr.length+1
+    let first=arr[0]
+    let last=arr.pop()
+    sum=(n*(first+last)/2)
+    missingNumber=sum-total
+    res.send({data: missingNumber})
+ })
+
+
+
+
+    
+
+
 
 module.exports = router;
