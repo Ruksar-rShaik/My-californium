@@ -7,6 +7,34 @@ const createBook= async function (req, res) {
     let savedData= await BookModel.create(data)
     res.send({msg: savedData})
 }
+const bookList= async function(req,res){
+    let bookAuth= await BookModel.find().select({bookName:1, authorName:1,_id:0})
+    res.send({msg:bookAuth})
+}
+
+const getBooksInYear=async function(req,res){
+    let ipYear=req.params.year
+    let booksInYear= await BookModel.find({year:ipYear})
+    res.send({msg:booksInYear})
+}
+
+const getParticularBooks= async function(req,res){
+    let input=req.body.name
+    let bookname=await BookModel.find({bookName: new RegExp(input)})
+    res.send({msg:bookname})
+}
+
+
+const getXINRBooks= async function(req,res){
+    let inr= await BookModel.find({"prices.indianPrice":{$in:["Rs 500","Rs 200","Rs  100"]}})
+    res.send({msg:inr})
+}
+
+
+const getRandomBooks= async function(req,res){
+    let availBooks= await BookModel.find({stockAvailable:true, totalPages:{$gt:500}})
+    res.send({msg:availBooks})
+}
 
 const getBooksData= async function (req, res) {
 
@@ -73,7 +101,7 @@ const getBooksData= async function (req, res) {
 
     // WHEN AWAIT IS USED: - database + axios
     //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
-    console.log(allBooks)
+    //console.log(allBooks)
     let b = 14
     b= b+ 10
     console.log(b)
@@ -83,3 +111,8 @@ const getBooksData= async function (req, res) {
 
 module.exports.createBook= createBook
 module.exports.getBooksData= getBooksData
+module.exports.bookList=bookList
+module.exports.getBooksInYear=getBooksInYear
+module.exports.getXINRBooks=getXINRBooks
+module.exports.getParticularBooks=getParticularBooks
+module.exports.getRandomBooks=getRandomBooks
