@@ -3,6 +3,7 @@ const router = express.Router();
 // const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
+const CustomerController= require("../controllers/customerController")
 
 
 router.post("/createBook", BookController.createBook  )
@@ -13,6 +14,9 @@ router.get("/getAuthor", BookController.getAuthor)
 router.get("/bookbyCB", BookController.bookbyCB)
 router.get("/bookUpdte", BookController.bookUpdte)
 router.get("/fndBookWithAuthName", BookController.fndBookWithAuthName)
+
+router.post("/createCustomer", CustomerController.createCustomer)
+router.post("/createCard", CustomerController.createCard)
 
 
 

@@ -36,7 +36,7 @@ const bookUpdte= async function(req,res){
 const fndBookWithAuthName= async function(req,res){
     let bookPrice= await BookModel.find( { price : { $gte: 50, $lte: 100} } ).select({ author_id :1})
     console.log(bookPrice)
-    let result =bookPrice.map(a=>(a.author_id))
+   let result =bookPrice.map(a=>(a.author_id))
     let author = await AuthorModel.find({author_id:result})
     res.send({msg:author})
 
